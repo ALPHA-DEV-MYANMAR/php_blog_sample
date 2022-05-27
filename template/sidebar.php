@@ -11,7 +11,6 @@
         </button>
     </div>
     <div class="nav-menu">
-        <ul>
             <li class="menu-item">
                 <a href="<?php echo $url; ?>/dashboard.php" class="menu-item-link ">
                     <span>
@@ -22,8 +21,10 @@
             </li>
             <li class="menu-spacer"></li>
 
+            <?php if($_SESSION['user']['role'] <= 1 ) { ?>
+
             <li class="menu-title">
-                <span>Setting</span>
+                <span>Category Manager</span>
             </li>
 
             <li class="menu-item">
@@ -37,6 +38,42 @@
 
             <li class="menu-spacer"></li>
 
+            <li class="menu-title">
+                <span>Post Manager</span>
+            </li>
+
+            <li class="menu-item">
+                <a href="<?php echo $url; ?>/post_add.php" class="menu-item-link">
+                    <span>
+                        <i class="feather-plus-circle"></i>
+                        Add Post
+                    </span>
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="<?php echo $url; ?>/post_list.php" class="menu-item-link">
+                    <span>
+                        <i class="feather-plus-circle"></i>
+                         Post List
+                    </span>
+                </a>
+            </li>
+
+            <li class="menu-spacer"></li>
+
+            <li class="menu-item">
+                <a href="<?php echo $url; ?>/user_list.php" class="menu-item-link">
+                    <span>
+                        <i class="feather-plus-circle"></i>
+                         User List
+                    </span>
+                </a>
+            </li>
+
+            <li class="menu-spacer"></li>
+
+            <?php } ?>
 
             <li class="menu-item">
                 <a href="<?php echo $url; ?>/logout.php" class="btn btn-primary w-100">

@@ -37,6 +37,23 @@
         return date($format,strtotime($timeStamp));
     }
 
+    function linkTo($l){
+        echo "<script>location.href='$l'</script>";
+    }
+
+    function countTotal($table,$condition = 1){
+        $sql = "SELECT COUNT(id) FROM $table WHERE $condition";
+        $total = fetch($sql);
+        return $total['COUNT(id)'];
+    }
+
+    function textFilter($text){
+        $text = trim($text);
+        $text = htmlentities($text , ENT_QUOTES);
+        $text = stripcslashes($text);
+        return $text ;
+    }
+
 // common end
 
 // auth start
@@ -105,6 +122,11 @@ function user($id){
     return fetch($sql);
 }
 
+function users(){
+    $sql = "SELECT * FROM users";
+    return fetchAll($sql);
+}
+
 // user end
 
 // categroy start
@@ -140,5 +162,51 @@ function categoryUpdate(){
     $sql   = "UPDATE categories SET title='$title' WHERE id='$id'";
     return runQuery($sql);
 }
-
 // category end
+
+// post start
+function postAdd(){
+    $title = textFilter($_POST['title']);
+    $description = textFilter($_POST['description']);
+    $category_id = $_POST['category_id'];
+    $user_id = $_SESSION['user']['id'];
+    $sql = "INSERT INTO post (title,description,category_id,user_id) VALUES ('$title','$description','$category_id','$user_id')";
+    if(runQuery($sql)){
+       linkTo("post_add.php");
+    }
+}
+
+function post($id){
+    $sql = "SELECT * FROM post WHERE id = $id";
+    return fetch($sql);
+}
+
+function posts($limit=9999999){
+    if($_SESSION['user']['role'] == 2){
+        $current_user_id = $_SESSION['user']['id'];
+        $sql = "SELECT * FROM post WHERE user_id = '$current_user_id' LIMIT $limit";// for user
+    }else{
+        $sql = "SELECT * FROM post LIMIT $limit";
+    }
+    return fetchAll($sql);
+}
+
+function postDelete($id){
+    $sql="DELETE FROM post WHERE id = $id ";
+    return runQuery($sql);
+
+}
+
+function postUpdate(){
+    $title = textFilter($_POST['title']);
+    $description = textFilter($_POST['description']);
+    $category_id = $_POST['category_id'];
+    $id = $_POST['id'];
+
+    $sql = "UPDATE post SET title='$title',category_id='$category_id',description='$description' WHERE id=$id";
+
+    return runQuery($sql);
+
+}
+
+// post end

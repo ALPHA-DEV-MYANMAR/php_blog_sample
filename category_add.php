@@ -28,7 +28,9 @@
                 <?php
 
                     if(isset($_POST['addCat'])){
-                        categoryAdd();
+                        if(categoryAdd()){
+                            linkTo("category_add.php");
+                        }
                     }
 
                 ?>

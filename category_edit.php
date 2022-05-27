@@ -31,6 +31,7 @@
 
                         if(isset($_POST['updateCat'])){
                            categoryUpdate();
+                           linkTo('category_add.php');
                         }
 
                     ?>
